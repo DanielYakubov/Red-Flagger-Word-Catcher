@@ -6,6 +6,7 @@ import datasets
 import pandas as pd
 from nltk import ngrams
 
+
 def _initialize_grams():
     unigrams = Counter()
     bigrams = Counter()
@@ -162,6 +163,6 @@ if __name__ == "__main__":
     corpus_possible_abuse.to_csv("possible_abuse_terms_for_review.csv",
                                  index=False)
     print(
-        "possible_abuse_terms_for_review.csv file created, "
-        "once reviewed and annotated run corpus_based_list_post_processing.csv"
+        "possible_abuse_terms_for_review.csv file created, run lexicon_based_list_creation.py if you haven't"
+        "once both are reviewed and annotated run post_annotation_processing.py"
     )

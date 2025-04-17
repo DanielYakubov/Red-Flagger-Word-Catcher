@@ -176,3 +176,4 @@ cython_debug/
 
 # Intermediate files from scripts
 possible_abuse_terms_for_review.csv
+lexicon_based_wordlist_to_check.csv
