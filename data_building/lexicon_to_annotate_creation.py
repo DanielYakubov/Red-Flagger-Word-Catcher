@@ -158,7 +158,6 @@ def download_github_wordlist(url: str) -> set[str]:
     if response.status_code == 200:
         wordlist = response.text.split('\n')
         cleaned_wordlist = clean_token_list(wordlist)
-        print(wordlist)
         return set(cleaned_wordlist)
     else:
         print(
@@ -191,12 +190,15 @@ if __name__ == "__main__":
     gst_toxic = download_github_wordlist(
         "https://raw.githubusercontent.com/martinigoyanes/LexiconGST/refs/heads/main/data/lexicons/toxic.txt"
     )
+    shutter_stock_hate = download_github_wordlist(
+        "https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/refs/heads/master/en"
+    )
 
     # getting rid of overlaps
     all_unigrams = list(
         set.union(set(hso_unigrams), set(tx_unigrams), set(xplain_unigrams),
                   set(offensive_unigrams), musk_hate, gab_hate, gst_hate,
-                  gst_toxic))
+                  gst_toxic, shutter_stock_hate))
 
     all_bigrams = [
         " ".join(words)
