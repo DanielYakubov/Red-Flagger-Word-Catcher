@@ -5,8 +5,6 @@ from collections import Counter
 import datasets
 import pandas as pd
 from nltk import ngrams
-from nltk.corpus import stopwords
-
 
 def _initialize_grams():
     unigrams = Counter()
@@ -37,6 +35,7 @@ def _return_list_of_first_item(*args):
 
 
 def process_hso_dataset(unigram_n=500, bigram_n=300, trigram_n=200):
+    # from hatebase.org
     hso_dataset = datasets.load_dataset("tdavidson/hate_speech_offensive")
     unigrams, bigrams, trigrams = _initialize_grams()
     for item in hso_dataset['train']:
@@ -53,11 +52,11 @@ def process_hso_dataset(unigram_n=500, bigram_n=300, trigram_n=200):
                                       trigrams.most_common(trigram_n))
 
 
-def process_hb_dataset(unigram_n=500, bigram_n=300, trigram_n=200):
+def process_tx_dataset(unigram_n=500, bigram_n=300, trigram_n=200):
     # processing hate_speech_offensive dataset
-    hb_dataset = datasets.load_dataset("lmsys/toxic-chat", "toxicchat0124")
+    tx_dataset = datasets.load_dataset("lmsys/toxic-chat", "toxicchat0124")
     unigrams, bigrams, trigrams = _initialize_grams()
-    for item in hb_dataset['train']:
+    for item in tx_dataset['train']:
         if item['toxicity'] == 1:
             words = _clean_token_list(item["user_input"].split())
 
@@ -92,18 +91,38 @@ def process_xplain_dataset(unigram_n=500, bigram_n=300, trigram_n=200):
                                       trigrams.most_common(trigram_n))
 
 
+def process_offensive_dataset(unigram_n=500, bigram_n=300, trigram_n=200):
+    # OLID dataset technically
+    offensive_dataset = datasets.load_dataset("christinacdl/offensive_language_dataset")
+
+    unigrams, bigrams, trigrams = _initialize_grams()
+    for item in offensive_dataset['train']:
+        if item["label"] == 1:
+            # 1: Offensive
+            words = _clean_token_list(item['text'].split())
+
+            # adding to each
+            unigrams, bigrams, trigrams = _update_grams(words, unigrams,
+                                                        bigrams, trigrams)
+
+    return _return_list_of_first_item(unigrams.most_common(unigram_n),
+                                      bigrams.most_common(bigram_n),
+                                      trigrams.most_common(trigram_n))
+
+
 if __name__ == "__main__":
     # getting the top ngrams from each file
     hso_unigrams, hso_bigrams, hso_trigrams = process_hso_dataset()
-    hb_unigrams, hb_bigrams, hb_trigrams = process_hb_dataset()
+    tx_unigrams, tx_bigrams, tx_trigrams = process_tx_dataset()
     xplain_unigrams, xplain_bigrams, xplain_trigrams = process_xplain_dataset()
+    offensive_unigrams, offensive_bigrams, offensive_trigrams = process_offensive_dataset()
 
     # getting rid of overlaps
     all_unigrams = list(
-        set.union(set(hso_unigrams), set(hb_unigrams), set(xplain_unigrams)))
+        set.union(set(hso_unigrams), set(tx_unigrams), set(xplain_unigrams), set(offensive_unigrams)))
 
     all_bigrams = list(
-        set.union(set(hso_bigrams), set(hb_bigrams), set(xplain_bigrams)))
+        set.union(set(hso_bigrams), set(tx_bigrams), set(xplain_bigrams), set(offensive_bigrams)))
     # # for bigrams, we want to avoid overlaps with unigrams
     # for w1, w2 in all_bigrams:
     #     if w1 not in all_unigrams and w2 not in all_unigrams:
@@ -112,7 +131,7 @@ if __name__ == "__main__":
     #         print(w1, w2)
 
     all_trigrams = list(
-        set.union(set(hso_trigrams), set(hb_trigrams), set(xplain_trigrams)))
+        set.union(set(hso_trigrams), set(tx_trigrams), set(xplain_trigrams), set(offensive_trigrams)))
     # # for trigrams we want to avoid overlap with bigrams, it's easier to do this in str form.
     # for w1, w2, w3 in all_trigrams:
     #     trigram_str = " ".join([w1, w2, w3])
