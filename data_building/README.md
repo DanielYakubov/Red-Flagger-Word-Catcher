@@ -1,6 +1,6 @@
 # Data Creation
 
-This folder contains the scripts used to generate data for annotaion and subsequently post-process the annotated data. 
+This folder contains the scripts used to generate data for annotation and subsequently post-process the annotated data. 
 
 ## Procedure
 
