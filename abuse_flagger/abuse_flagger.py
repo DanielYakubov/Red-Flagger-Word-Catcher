@@ -26,19 +26,19 @@ class AbuseFlagger:
 
     def get_wordlist(self) -> list[str]:
         """Returns the currently loaded in list of words."""
-        return self._wordlist
+        return self._wordlist.copy()
 
     def add_words(self, words: list[str]) -> None:
         """Extend the wordlist with new words. This re-triggers duplication and overlap checking."""
         # TODO dupe & overlap filtering (borrow from data_building)
         self._wordlist.extend(words)
         # Updating the regex.
-        self._regex_wordlist = self.load_wordlist_regex(self._wordlist)
+        self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
     def remove_words(self, words: list[str]) -> None:
         """Removes words from the configured wordlist. Removed words will no longer be used in
         future detect_abuse calls."""
-        for word in words:
+        for i, word in enumerate(words):
             if word in self._wordlist:
                 self._wordlist.remove(word)
         # Updating the regex.
