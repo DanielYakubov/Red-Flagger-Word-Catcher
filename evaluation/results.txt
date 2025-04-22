@@ -1,0 +1,4 @@
+           Dataset  Accuracy  Precision  Recall   F1
+Offensive language      0.83       0.83    0.91 0.87
+        HateXplain      0.75       0.78    0.92 0.85
+        Toxic Chat      0.91       0.43    0.58 0.49
