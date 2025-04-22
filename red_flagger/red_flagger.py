@@ -1,6 +1,7 @@
 import os.path
 import re
 from typing import Union
+from collections import Counter
 
 from red_flagger.obscure_data import unobscure
 
@@ -54,4 +55,13 @@ class RedFlagger:
                               document,
                               flags=re.IGNORECASE)
         return bool(re.search(self._regex_wordlist, document, flags=re.IGNORECASE))
+    
+    def abuse_vector(self, document: str) -> list[int]:
+        """Creates a vector with the counts of each word in the wordlist.
+        We have to convert input to lowercase as `detect_abuse` returns a list of words matching their original casing.
+        Therefore, this assumes the wordlist is also lower cased.
+        """
+        abuse_words = self.detect_abuse(document.lower())
+        word_counts = Counter(abuse_words)
+        return [word_counts[w] for w in self.get_wordlist()]
 
