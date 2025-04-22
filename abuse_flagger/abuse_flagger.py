@@ -55,8 +55,5 @@ class AbuseFlagger:
             return re.findall(self._regex_wordlist,
                               document,
                               flags=re.IGNORECASE)
-        else:
-            if re.search(self._regex_wordlist, document, flags=re.IGNORECASE):
-                return True
-            return False
+        return bool(re.search(self._regex_wordlist, document, flags=re.IGNORECASE))
 
