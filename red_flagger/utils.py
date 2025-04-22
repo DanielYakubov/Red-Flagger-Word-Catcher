@@ -14,13 +14,14 @@ def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
     unique_words: list[str] = []
     multi_words: list[tuple[str, str, ...]] = []
 
-    # gets unigrams
+    # gets unigrams, parses phrases (multi words)
     split_word_list = [x.split() for x in word_list]
     [unique_words.append(x[0]) for x in split_word_list if len(x) == 1 and x[0] not in unique_words]
     [multi_words.append(x) for x in split_word_list if len(x) > 1 and x not in multi_words]
 
     # checks for overlap with longer sequences, appends to unique if not in unique
-    good_multi = [multi_word_tuple for multi_word_tuple in multi_words if all([word not in unique_words for word in multi_word_tuple])]
+    good_multi = [multi_word_tuple for multi_word_tuple in multi_words if
+                  all([word not in unique_words for word in multi_word_tuple])]
     [unique_words.append(" ".join(x)) for x in good_multi]
 
     return unique_words

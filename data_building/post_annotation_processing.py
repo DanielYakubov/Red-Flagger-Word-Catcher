@@ -20,7 +20,7 @@ def set_up_parser() -> argparse.ArgumentParser:
         description='Processes an annotated wordlist and adds it to the stored global blacklist.'
     )
     #revert before commit
-    parser.add_argument('--filename', help="The path to the annotation file.", default = "./toxic_lexicon_annotated.csv")
+    parser.add_argument('filename', help="The path to the annotation file.")
     parser.add_argument("--word_col", help="The name of the column containing the toxic words.", default="words_to_check")
     parser.add_argument("--annotation_col", help="The name of the column containing the binary annotations.", default="Abuse Term (Y/N)")
     parser.add_argument("--positive_label", help="The string that represents a positive annotation in the annotation_col.", default="y")
