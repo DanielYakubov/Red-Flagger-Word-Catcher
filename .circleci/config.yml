@@ -22,7 +22,7 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-          packages:
+          args:
             - yapf
             - flake8
       - run:
