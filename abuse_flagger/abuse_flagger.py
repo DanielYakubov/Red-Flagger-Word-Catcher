@@ -16,8 +16,7 @@ class AbuseFlagger:
     def _load_wordlist(self) -> list[str]:
         """Load in the wordlist from the encoded base16 file."""
         with open(self.DATA_DIR, "rb") as word_list_file:
-            wordlist = [unobscure(word) for word in word_list_file]
-        return wordlist
+            return [unobscure(word) for word in word_list_file]
 
     def _load_wordlist_regex(self, word_list: list[str]) -> str:
         """Convert the wordlist to a regular expression."""
