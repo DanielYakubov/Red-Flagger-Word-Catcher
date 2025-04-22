@@ -1,6 +1,9 @@
-# Abuse Keywords (name-in-progress)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DanielYakubov/abuse-keywords/tree/main.svg?style=svg&circle-token=CCIPRJ_WW5z4SbXN1bikuP7XGdnaK_4c37f849e6ff3744317014c6cc04f098dc63b814)](https://dl.circleci.com/status-badge/redirect/gh/DanielYakubov/abuse-keywords/tree/main)
 
-A repository containing a simple, dependency-free software that does keyword-based abuse flagging. It is designed with a philosophy of sensitivity and a focus on recall rather than precision. It detects from a term list that contain terms that are discovered through lexicons and corpora containing hate speech, chatbot system abuse, toxicity, violence, and/or general profinity/obscenity. 
+
+# Red Flagger 🙅🚩
+
+A simple, dependency-free software that does keyword-based abuse flagging. It is designed with a philosophy of sensitivity and a focus on recall rather than precision. It detects from a term list that contain terms that are discovered through lexicons and corpora containing hate speech, chatbot system abuse, toxicity, violence, and/or general profinity/obscenity. 
 
 ## 🚨🚨 Important Note on Keyword Detection Systems 🚨🚨
 
