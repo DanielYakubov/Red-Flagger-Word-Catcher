@@ -16,8 +16,7 @@ class AbuseFlagger:
     def _load_wordlist(self) -> list[str]:
         """Load in the wordlist from the encoded base16 file."""
         with open(self.DATA_DIR, "rb") as word_list_file:
-            wordlist = [unobscure(word) for word in word_list_file]
-        return wordlist
+            return [unobscure(word) for word in word_list_file]
 
     def _load_wordlist_regex(self, word_list: list[str]) -> str:
         """Convert the wordlist to a regular expression."""
@@ -35,12 +34,10 @@ class AbuseFlagger:
         # Updating the regex.
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
-    def remove_words(self, words: list[str]) -> None:
+    def remove_words(self, words_to_remove: list[str]) -> None:
         """Removes words from the configured wordlist. Removed words will no longer be used in
         future detect_abuse calls."""
-        for i, word in enumerate(words):
-            if word in self._wordlist:
-                self._wordlist.remove(word)
+        self._wordlist = [w for w in self._wordlist if w not in words_to_remove]
         # Updating the regex.
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
@@ -56,8 +53,5 @@ class AbuseFlagger:
             return re.findall(self._regex_wordlist,
                               document,
                               flags=re.IGNORECASE)
-        else:
-            if re.search(self._regex_wordlist, document, flags=re.IGNORECASE):
-                return True
-            return False
+        return bool(re.search(self._regex_wordlist, document, flags=re.IGNORECASE))
 
