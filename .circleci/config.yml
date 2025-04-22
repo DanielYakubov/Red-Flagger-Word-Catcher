@@ -14,6 +14,24 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  format-and-lint:
+    docker:
+      - image: cimg/python:3.12
+
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+          packages:
+            - yapf
+            - flake8
+      - run:
+          name: Format code
+          command: yapf --recursive --in-place --verbose .
+      - run:
+          name: Lint code
+          command: flake8 .
+
   build-and-test:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
@@ -42,4 +60,5 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
+      - format-and-lint
       - build-and-test
