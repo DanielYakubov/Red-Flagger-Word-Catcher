@@ -4,7 +4,7 @@ import os
 
 import pandas as pd
 
-from abuse_flagger.obscure_data import obscure, unobscure, ObscuringError
+from red_flagger.obscure_data import obscure, unobscure, ObscuringError
 
 OUT_FILEPATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "abuse_flagger", "data", "toxic_keywords_b16.txt")
 

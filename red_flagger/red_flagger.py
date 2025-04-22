@@ -2,10 +2,10 @@ import os.path
 import re
 from typing import Union
 
-from abuse_flagger.obscure_data import unobscure
+from red_flagger.obscure_data import unobscure
 
 
-class AbuseFlagger:
+class RedFlagger:
     DATA_DIR = os.path.join(os.path.dirname(__file__),
                             "data/toxic_keywords_b16.txt")
 

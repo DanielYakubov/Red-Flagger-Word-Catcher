@@ -2,7 +2,7 @@
 
 import unittest
 
-from abuse_flagger.obscure_data import obscure, unobscure
+from red_flagger.obscure_data import obscure, unobscure
 
 
 class TestObscureData(unittest.TestCase):

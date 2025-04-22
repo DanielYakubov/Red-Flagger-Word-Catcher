@@ -6,9 +6,9 @@ import pandas as pd
 from sklearn.metrics import (accuracy_score, f1_score, precision_score,
                              recall_score)
 
-from abuse_flagger.abuse_flagger import AbuseFlagger
+from red_flagger.red_flagger import RedFlagger
 
-AF = AbuseFlagger()
+AF = RedFlagger()
 
 
 def _get_metrics(y_true: Iterable[Any], y_pred: Iterable[Any]) -> tuple[float, float, float, float]:
