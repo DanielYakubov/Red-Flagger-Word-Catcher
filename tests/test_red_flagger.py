@@ -57,7 +57,7 @@ class TestRedFlagger(unittest.TestCase):
 
         detected_4 = self.red_flagger.detect_abuse(
             "Big ben really is something, huh?", return_words=True)
-        self.assertEqual(detected_4, ["Big ben"])
+        self.assertEqual(detected_4, ["Big Ben"])
 
         detected_5 = self.red_flagger.detect_abuse(
             "I went to see that clocktower Big Ben, I hate the tube so I go there on-foot.",
@@ -83,7 +83,7 @@ class TestRedFlagger(unittest.TestCase):
         single_match = self.red_flagger.get_abuse_vector("I can see Big Ben!")
         self.assertEqual(single_match, [1, 0, 0])
 
-        wrong_case = self.red_flagger.get_abuse_vector("I can see big ben!") # Test with changed casing
+        wrong_case = self.red_flagger.get_abuse_vector("I can see big ben!")
         self.assertEqual(wrong_case, [1, 0, 0])
 
         multi_matches = self.red_flagger.get_abuse_vector("My favourite clocktower is Big Ben. I can see that clocktower from my home!")

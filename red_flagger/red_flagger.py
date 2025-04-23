@@ -12,6 +12,7 @@ class RedFlagger:
 
     def __init__(self):
         self._wordlist = self._load_wordlist()
+        self._case_map = {word.lower(): word for word in self._wordlist} # Map lowercase items to their original case
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
     def _load_wordlist(self) -> list[str]:
@@ -32,6 +33,7 @@ class RedFlagger:
         """Extend the wordlist with new words. This re-triggers duplication and overlap checking."""
         # TODO dupe & overlap filtering (borrow from data_building)
         self._wordlist.extend(words)
+        self._case_map.update({word.lower(): word for word in words})
         # Updating the regex.
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
@@ -39,6 +41,7 @@ class RedFlagger:
         """Removes words from the configured wordlist. Removed words will no longer be used in
         future detect_abuse calls."""
         self._wordlist = [w for w in self._wordlist if w not in words_to_remove]
+        self._case_map = {k:v for k,v in self._case_map.items() if k not in words_to_remove}
         # Updating the regex.
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
@@ -51,16 +54,13 @@ class RedFlagger:
          Otherwise, a boolean representing if there were any terms in the list is returned.
         """
         if return_words:
-            return re.findall(self._regex_wordlist,
-                              document,
-                              flags=re.IGNORECASE)
+            matches = re.findall(self._regex_wordlist, document, flags=re.IGNORECASE)
+            return [self._case_map[word.lower()] for word in matches]
         return bool(re.search(self._regex_wordlist, document, flags=re.IGNORECASE))
     
     def get_abuse_vector(self, document: str) -> list[int]:
-        """Creates a vector with the counts of each word in the wordlist.
-        We have to convert input to lowercase as `detect_abuse` returns a list of words matching their original casing.
-        """
-        abuse_words = self.detect_abuse(document.lower())
+        """Creates a vector with the counts of each word in the wordlist."""
+        abuse_words = self.detect_abuse(document)
         word_counts = Counter(abuse_words)
         return [word_counts[w] for w in self.get_wordlist()]
 
