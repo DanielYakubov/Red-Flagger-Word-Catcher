@@ -4,37 +4,38 @@ orbs:
   python: circleci/python@2.1.1
 
 jobs:
+  lint-code:
     docker:
       - image: cimg/python:3.12
     steps:
       - checkout
       - run:
           name: Install Linters
-            command-run: pip install black flake8
+          command: pip install black flake8
       - run:
           name: black
-            command-run: black --line-length 79 --check .
+          command: black --line-length 79 --check .
       - run:
           name: flake8
-            command-run: flake8 --ignore E203,W503 .
+          command: flake8 --ignore E203,W503 .
+
   test-code:
     docker:
       - image: cimg/python:3.12
-      steps:
-        - checkout
+    steps:
+      - checkout
       - run:
           name: Install requirements from subdirs
-            command-run: |
-              pip install -r data_building/requirements.txt \ 
-              pip install -r evaluation/requirements.txt
+          command: |
+            pip install -r data_building/requirements.txt
+            pip install -r evaluation/requirements.txt
       - run:
           name: Run unittests
-            command-run: python -m unittest discover tests/
+          command: python -m unittest discover tests/
 
 workflows:
-  check-code:
+  version: 2
+  build-and-test:
     jobs:
       - lint-code
-  test-code:
-    jobs:
       - test-code
