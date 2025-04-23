@@ -56,7 +56,7 @@ class RedFlagger:
                               flags=re.IGNORECASE)
         return bool(re.search(self._regex_wordlist, document, flags=re.IGNORECASE))
     
-    def abuse_vector(self, document: str) -> list[int]:
+    def get_abuse_vector(self, document: str) -> list[int]:
         """Creates a vector with the counts of each word in the wordlist.
         We have to convert input to lowercase as `detect_abuse` returns a list of words matching their original casing.
         Therefore, this assumes the wordlist is also lower cased.
