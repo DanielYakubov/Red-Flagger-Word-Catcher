@@ -5,7 +5,7 @@ import unittest
 from red_flagger.red_flagger import RedFlagger
 
 
-class TestObscureData(unittest.TestCase):
+class TestRedFlagger(unittest.TestCase):
 
     def setUp(self):
         self.red_flagger = RedFlagger()
@@ -67,3 +67,24 @@ class TestObscureData(unittest.TestCase):
         detected_6 = self.red_flagger.detect_abuse(
             "Big Ben is a clocktower, well, kind of.", return_words=False)
         self.assertTrue(detected_6)
+
+    def test_get_abuse_vector(self):
+        wl = self.red_flagger.get_wordlist()
+        self.red_flagger.remove_words(wl)
+
+        words = ["Big Ben", "clocktower", "on-foot"]
+        self.red_flagger.add_words(words)
+        
+        self.assertEqual(len(self.red_flagger.get_abuse_vector("")), len(words))
+
+        no_matches = self.red_flagger.get_abuse_vector("The Eiffel Tower looks great at night")
+        self.assertEqual(no_matches, [0, 0, 0])
+        
+        single_match = self.red_flagger.get_abuse_vector("I can see Big Ben!")
+        self.assertEqual(single_match, [1, 0, 0])
+
+        wrong_case = self.red_flagger.get_abuse_vector("I can see big ben!") # Test with changed casing
+        self.assertEqual(wrong_case, [1, 0, 0])
+
+        multi_matches = self.red_flagger.get_abuse_vector("My favourite clocktower is Big Ben. I can see that clocktower from my home!")
+        self.assertEqual(multi_matches, [1, 2, 0])
