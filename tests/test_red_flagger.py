@@ -1,11 +1,14 @@
-"""Tests the functionality of the RedFlagger object."""
+"""
+Tests various properties of the obscuring/unobscuring
+functions which are critical to the lib.
+"""
 
 import unittest
 
 from red_flagger.red_flagger import RedFlagger
 
 
-class TestObscureData(unittest.TestCase):
+class TestRedFlagger(unittest.TestCase):
 
     def setUp(self):
         self.red_flagger = RedFlagger()
@@ -61,11 +64,11 @@ class TestObscureData(unittest.TestCase):
         detected_4 = self.red_flagger.detect_abuse(
             "Big ben really is something, huh?", return_words=True
         )
-        self.assertEqual(detected_4, ["Big ben"])
+        self.assertEqual(detected_4, ["Big Ben"])
 
         detected_5 = self.red_flagger.detect_abuse(
-            "I went to see that clocktower Big Ben, "
-            "I hate the tube so I go there on-foot.",
+            "I went to see that clocktower Big Ben, \
+            I hate the tube so I go there on-foot.",
             return_words=True,
         )
         self.assertEqual(detected_5, ["clocktower", "Big Ben", "on-foot"])
@@ -74,3 +77,44 @@ class TestObscureData(unittest.TestCase):
             "Big Ben is a clocktower, well, kind of.", return_words=False
         )
         self.assertTrue(detected_6)
+
+        # Casing tests
+        detected_7 = self.red_flagger.detect_abuse(
+            "I visited bIG bEN and went there ON-foot to see the ClockTower.",
+            return_words=True,
+        )
+        self.assertEqual(detected_7, ["Big Ben", "on-foot", "clocktower"])
+
+        self.red_flagger.add_words(["big ben"])  # Overwrites original case
+        detected_8 = self.red_flagger.detect_abuse(
+            "I saw Big Ben in London.", return_words=True
+        )
+        self.assertEqual(detected_8, ["big ben"])
+
+    def test_get_abuse_vector(self):
+        wl = self.red_flagger.get_wordlist()
+        self.red_flagger.remove_words(wl)
+
+        words = ["Big Ben", "clocktower", "on-foot"]
+        self.red_flagger.add_words(words)
+
+        self.assertEqual(
+            len(self.red_flagger.get_abuse_vector("")), len(words)
+        )
+
+        no_matches = self.red_flagger.get_abuse_vector(
+            "The Eiffel Tower looks great at night"
+        )
+        self.assertEqual(no_matches, [0, 0, 0])
+
+        single_match = self.red_flagger.get_abuse_vector("I can see Big Ben!")
+        self.assertEqual(single_match, [1, 0, 0])
+
+        wrong_case = self.red_flagger.get_abuse_vector("I can see big ben!")
+        self.assertEqual(wrong_case, [1, 0, 0])
+
+        multi_matches = self.red_flagger.get_abuse_vector(
+            "My favourite clocktower is Big Ben. \
+            I can see that clocktower from my home!"
+        )
+        self.assertEqual(multi_matches, [1, 2, 0])
