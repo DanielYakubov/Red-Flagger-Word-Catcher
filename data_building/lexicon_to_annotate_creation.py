@@ -177,9 +177,7 @@ def download_github_wordlist(url: str) -> set[str]:
         cleaned_wordlist = clean_token_list(wordlist)
         return set(cleaned_wordlist)
     else:
-        print(
-            f"Failed to get file from {url}. Code: {response.status_code}."
-        )
+        print(f"Failed to get file from {url}. Code: {response.status_code}.")
 
 
 if __name__ == "__main__":

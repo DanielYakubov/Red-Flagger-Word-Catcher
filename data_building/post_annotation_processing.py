@@ -24,7 +24,7 @@ def set_up_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="AnnotationPostProcessing",
         description="Processes an annotated wordlist and"
-                    " adds it to the stored global blacklist.",
+        " adds it to the stored global blacklist.",
     )
     parser.add_argument("filename", help="The path to the annotation file.")
     parser.add_argument(
@@ -40,13 +40,13 @@ def set_up_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--positive_label",
         help="The string that represents a positive annotation"
-             " in the annotation_col.",
+        " in the annotation_col.",
         default="y",
     )
     parser.add_argument(
         "--negative_label",
         help="The string that represents a negative annotation"
-             " in the annotation_col",
+        " in the annotation_col",
         default="n",
     )
     parser.add_argument(
@@ -68,11 +68,9 @@ def load_file(filename) -> pd.DataFrame:
 
 def validate_data(df: pd.DataFrame, args: argparse.Namespace) -> None:
     """Validate the loaded in dataframe with the user specified args.
-     This tries to catch any simple schema errors."""
+    This tries to catch any simple schema errors."""
     if args.word_col not in df.columns:
-        raise ArgsError(
-            f"word_col {args.word_col} not found in {df.columns}."
-        )
+        raise ArgsError(f"word_col {args.word_col} not found in {df.columns}.")
     if args.annotation_col not in df.columns:
         raise ArgsError(
             f"Annotation_col {args.annotation_col} not found in {df.columns}."
@@ -83,7 +81,7 @@ def validate_data(df: pd.DataFrame, args: argparse.Namespace) -> None:
         raise ArgsError(
             f'Annotations other than positive_label "{args.positive_label}"'
             f' and negative_label "{args.negative_label}" '
-            f'found in annotation_col {args.annotation_col}.'
+            f"found in annotation_col {args.annotation_col}."
         )
     if os.path.exists(args.out_file):
         input(
