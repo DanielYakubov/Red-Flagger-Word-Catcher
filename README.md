@@ -16,9 +16,9 @@ Examples of suggested, more robust use cases:
 
 For performance, see `evaluation/`.
 
-## Usage
+## Usage 🔨
 
-For basic usage, all you have to do is
+For basic usage, all you have to do is:
 
 `$ pip install red-flagger`
 
@@ -28,6 +28,14 @@ from red_flagger import RedFlagger
 rf = RedFlagger()
 document = "Something hateful"
 hate_words = rf.detect_abuse(document)
+```
+
+There's also a method to get a bag-of-words from the wordlist:
+
+```
+...
+
+hate_bow = rf.get_abuse_vector(document)
 ```
 
 The library is designed to work with other word lists that are not built-in to the library. This can be managed with the `add_words` and `remove_words` methods. 
