@@ -1,4 +1,4 @@
-"""Tests various properties of the obscuring/unobscuring functions which are critical to the lib."""
+"""Tests the functionality of the RedFlagger object."""
 
 import unittest
 
@@ -12,8 +12,9 @@ class TestObscureData(unittest.TestCase):
 
     def test_get_wordlist(self):
         self.assertEqual(len(self.red_flagger.get_wordlist()), 1912)
-        self.assertEqual(self.red_flagger.get_wordlist(),
-                         self.red_flagger._wordlist)
+        self.assertEqual(
+            self.red_flagger.get_wordlist(), self.red_flagger._wordlist
+        )
 
     def test_add_words(self):
         word_1 = "TESTER"
@@ -48,22 +49,28 @@ class TestObscureData(unittest.TestCase):
         self.assertEqual(detected_1, [])
 
         detected_2 = self.red_flagger.detect_abuse(
-            "My cat is eating prosciutto.", return_words=True)
+            "My cat is eating prosciutto.", return_words=True
+        )
         self.assertEqual(detected_2, [])
 
         detected_3 = self.red_flagger.detect_abuse(
-            "My cat is eating prosciutto.", return_words=False)
+            "My cat is eating prosciutto.", return_words=False
+        )
         self.assertFalse(detected_3)
 
         detected_4 = self.red_flagger.detect_abuse(
-            "Big ben really is something, huh?", return_words=True)
+            "Big ben really is something, huh?", return_words=True
+        )
         self.assertEqual(detected_4, ["Big ben"])
 
         detected_5 = self.red_flagger.detect_abuse(
-            "I went to see that clocktower Big Ben, I hate the tube so I go there on-foot.",
-            return_words=True)
+            "I went to see that clocktower Big Ben, "
+            "I hate the tube so I go there on-foot.",
+            return_words=True,
+        )
         self.assertEqual(detected_5, ["clocktower", "Big Ben", "on-foot"])
 
         detected_6 = self.red_flagger.detect_abuse(
-            "Big Ben is a clocktower, well, kind of.", return_words=False)
+            "Big Ben is a clocktower, well, kind of.", return_words=False
+        )
         self.assertTrue(detected_6)
