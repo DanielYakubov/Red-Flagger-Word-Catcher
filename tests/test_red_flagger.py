@@ -78,6 +78,19 @@ class TestRedFlagger(unittest.TestCase):
         )
         self.assertTrue(detected_6)
 
+        # Casing tests
+        detected_7 = self.red_flagger.detect_abuse(
+            "I visited bIG bEN and went there ON-foot to see the ClockTower.",
+            return_words=True,
+        )
+        self.assertEqual(detected_7, ["Big Ben", "on-foot", "clocktower"])
+
+        self.red_flagger.add_words(["big ben"])  # Overwrites original case
+        detected_8 = self.red_flagger.detect_abuse(
+            "I saw Big Ben in London.", return_words=True
+        )
+        self.assertEqual(detected_8, ["big ben"])
+
     def test_get_abuse_vector(self):
         wl = self.red_flagger.get_wordlist()
         self.red_flagger.remove_words(wl)
