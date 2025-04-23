@@ -16,6 +16,22 @@ Examples of suggested, more robust use cases:
 
 For performance, see `evaluation/`.
 
+## Usage
+
+For basic usage, all you have to do is
+
+`$ pip install red-flagger`
+
+```
+from red_flagger import RedFlagger
+
+rf = RedFlagger()
+document = "Something hateful"
+hate_words = rf.detect_abuse(document)
+```
+
+The library is designed to work with other word lists that are not built-in to the library. This can be managed with the `add_words` and `remove_words` methods. 
+
 ## Directory 📁
 
 - `abuse_flagger/` contains the package code and the main logic.
@@ -33,4 +49,8 @@ We acknowledge that there are other great resources and link some of them below:
 - [Weaponized Word](https://weaponizedword.org)
 - [HurtLex](https://github.com/valeriobasile/hurtlex/tree/master)
 - [HateBase](https://hatebase.org)
+
+## Contributions 🤝
+
+We welcome contributions for both the word list and the software using a fork-and-pull model. For additions to the word list, please ensure there are no duplicates or overlaps and that the additional data is obscured in base16. For any new features for the RedFlagger, open an issue for discussion first before opening a pull request.
 

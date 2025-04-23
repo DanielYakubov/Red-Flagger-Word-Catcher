@@ -7,7 +7,7 @@ name = "red-flagger"
 version = "0.1.0"
 authors = [
   { name="Daniel Yakubov", email="danielyak98@gmail.com" },
-  { name="Ziggy Cross", email="ziggy.cross@me.com" },
+  { name="Ziggy Cross", email="ziggycross@me.com" },
   { name="Sara Davis", email="sara.rai.davis@gmail.com"}
 ]
 description = "A software that uses an curated open-source keyword list to detect hate."
