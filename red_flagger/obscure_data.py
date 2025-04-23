@@ -1,6 +1,8 @@
 """Functions for obscuring a string.
 
-Modified from: https://stackoverflow.com/questions/2490334/simple-way-to-encode-a-string-according-to-a-password"""
+Modified from:
+https://stackoverflow.com/questions/2490334/simple-way-to-encode-a-string-according-to-a-password
+"""  # noqa: E501
 
 import zlib
 from base64 import urlsafe_b64decode as b64d
@@ -14,7 +16,7 @@ class ObscuringError(Exception):
 
 def obscure(word: str) -> bytes:
     # Has to be encoded to be compressed.
-    data = word.encode('utf-16')
+    data = word.encode("utf-16")
     return b64e(zlib.compress(data, 9))
 
 
