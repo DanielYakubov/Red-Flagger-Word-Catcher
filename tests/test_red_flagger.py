@@ -24,6 +24,15 @@ class TestRedFlagger(unittest.TestCase):
         self.red_flagger.add_words([word_1])
         self.assertIn(word_1, self.red_flagger.get_wordlist())
 
+    def test_add_multiple_words(self):
+        original_len = len(self.red_flagger.get_wordlist())
+        given = ["TESTER", "TESTER", "TEST", "tests", "tester"]
+
+        self.red_flagger.add_words(given)
+        extended_len = len(self.red_flagger.get_wordlist())
+        # 3 is the number of unique words being added (not in default wordlist)
+        self.assertEqual(original_len + 3, extended_len)
+
     def test_remove_words(self):
         # First, adding a mundane word to avoid any hate open in tests.
         word_1 = "TESTER"

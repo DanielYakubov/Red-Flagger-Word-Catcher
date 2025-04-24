@@ -4,6 +4,7 @@ from typing import Union
 from collections import Counter
 
 from red_flagger.obscure_data import unobscure
+from red_flagger.utils import filter_overlaps_and_sort
 
 
 class RedFlagger:
@@ -19,9 +20,12 @@ class RedFlagger:
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
     def _load_wordlist(self) -> list[str]:
-        """Load in the wordlist from the encoded base16 file."""
+        """Load in the wordlist from the encoded base16 file.
+        Duplicates may exist in read-in set, so filtering at read in"""
         with open(self.DATA_DIR, "rb") as word_list_file:
-            return [unobscure(word) for word in word_list_file]
+            return filter_overlaps_and_sort(
+                [unobscure(word) for word in word_list_file]
+            )
 
     def _load_wordlist_regex(self, word_list: list[str]) -> str:
         """Convert the wordlist to a regular expression."""
@@ -36,9 +40,15 @@ class RedFlagger:
         """Extend the wordlist with new words.
         This re-triggers duplication and overlap checking.
         """
-        # TODO dupe & overlap filtering (borrow from data_building)
+        # Now filters and sorts the _wordlist; however, no filtering is
+        # performed on words parameter so adjust the case_map update so
+        # that it also checks if the word we're trying to add was
+        # maintained in the word list after filtering overlaps
         self._wordlist.extend(words)
-        self._case_map.update({word.lower(): word for word in words})
+        self._wordlist = filter_overlaps_and_sort(self._wordlist)
+        self._case_map.update(
+            {word.lower(): word for word in words if word in self._wordlist}
+        )
         # Updating the regex.
         self._regex_wordlist = self._load_wordlist_regex(self._wordlist)
 
