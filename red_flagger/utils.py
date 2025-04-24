@@ -4,7 +4,7 @@
 def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
     """Filters the word list to ensure items are unique within the word list.
 
-    Filtering happens in two steps:
+    Filtering happens in three steps:
     1) All the single gram items are extracted into a list, iff they are unique to the list. Multi-words are stored.
     2) Multi-words are composed into strings. Each string is compared against every other string, and if the shorter string is
         a sub-string of the longest, the longest is removed from the multi-word (not mult-string) container.
@@ -18,29 +18,29 @@ def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
     multi_words: list[tuple[str, str, ...]] = []
     multi_word_strings: list[str] = []
 
-    # gets unigrams, parses phrases (multi words)
+    # gets unigrams, parses phrases (multi words) (compare lower case only: Cat == cat)
     split_word_list = [x.split() for x in word_list]
     [
-        unique_words.append(x[0]) for x in split_word_list
-        if len(x) == 1 and x[0] not in unique_words
+        unique_words.append(x[0].lower()) for x in split_word_list
+        if len(x) == 1 and x[0].lower() not in unique_words
     ]
     [
-        multi_words.append(x) for x in split_word_list
-        if len(x) > 1 and x not in multi_words
+        multi_words.append([y.lower() for y in x]) for x in split_word_list
+        if len(x) > 1 and [y.lower() for y in x] not in multi_words
     ]
 
     #join tuples to form string for easier comparison of multi-word phrases
-    [multi_word_strings.append(" ".join(x)) for x in multi_words]
+    [multi_word_strings.append((" ".join(x)).lower()) for x in multi_words]
+
     bad_indices = []
 
-    #I'm sure this could be cleaned up with a list comprehension but my brain is dead atm
     #compare every multi-word string to each other; if one is a substring of the other,append the longer phrase index to remove
-    for i in range(len(multi_word_strings)):
-        for j in range(len(multi_word_strings)):
-            if multi_word_strings[j] in multi_word_strings[
-                    i] and i != j and i not in bad_indices:
-                bad_indices.append(i)
-
+    [
+        bad_indices.append(i) for i in range(len(multi_word_strings))
+        for j in range(len(multi_word_strings))
+        if i != j and i not in bad_indices
+        and multi_word_strings[j] in multi_word_strings[i]
+    ]
     #Use the bad indices from earlier comparison to remove phrases from multi-words that are covered by shorter phrase
     #for example "a dog walks" would be removed if "a dog" was part of the same multiword set
     multi_words = [
