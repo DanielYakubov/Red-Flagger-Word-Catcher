@@ -8,8 +8,7 @@ def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
     1) All the single gram items are extracted into a list, iff they are unique to the list. Multi-words are stored.
     2) Multi-words are composed into strings. Each string is compared against every other string, and if the shorter string is
         a sub-string of the longest, the longest is removed from the multi-word (not mult-string) container.
-    3) The multi-word container is iterated and added to the unique words list iff the multi-words do not contain
-        existing single words.
+    3) The multi-word container is iterated and added to the unique words list iff the n-grams (multi-words) do not contain existing n-1 grams.
 
     This algorithm also pseudo-sorts the list. First, all the unigrams are listed, then the multiword items.
     """
