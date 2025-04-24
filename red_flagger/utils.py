@@ -29,7 +29,7 @@ def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
     ]
 
     #join tuples to form string for easier comparison of multi-word phrases
-    [multi_word_strings.append((" ".join(x)).lower()) for x in multi_words]
+   multi_word_strings = [" ".join(x).lower() for x in multi_words]
 
     bad_indices = []
 
