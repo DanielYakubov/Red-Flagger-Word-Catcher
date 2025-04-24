@@ -19,13 +19,13 @@ def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
 
     # gets unigrams, parses phrases (multi words) (compare lower case only: Cat == cat)
     split_word_list = [x.split() for x in word_list]
-    [
-        unique_words.append(x[0].lower()) for x in split_word_list
+    unique_words = [
+        x[0].lower() for x in split_word_list
         if len(x) == 1 and x[0].lower() not in unique_words
     ]
-    [
-        multi_words.append([y.lower() for y in x]) for x in split_word_list
-        if len(x) > 1 and [y.lower() for y in x] not in multi_words
+    multi_words = [
+        (y.lower() for y in x) for x in split_word_list # Changed this to a tuple since that is what the type hints were looking for
+        if len(x) > 1 and [y.lower() for y in x] not in multi_words # This last check looks like it exists to avoid duplicates? I would suggest just leaving it out and then removing the duplicates after, or using a set.
     ]
 
     #join tuples to form string for easier comparison of multi-word phrases
