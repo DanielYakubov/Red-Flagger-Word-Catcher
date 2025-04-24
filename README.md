@@ -1,6 +1,9 @@
-# Abuse Keywords (name-in-progress)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DanielYakubov/abuse-keywords/tree/main.svg?style=svg&circle-token=CCIPRJ_WW5z4SbXN1bikuP7XGdnaK_4c37f849e6ff3744317014c6cc04f098dc63b814)](https://dl.circleci.com/status-badge/redirect/gh/DanielYakubov/abuse-keywords/tree/main)
 
-A repository containing a simple, dependency-free software that does keyword-based abuse flagging. It is designed with a philosophy of sensitivity and a focus on recall rather than precision. It detects from a term list that contain terms that are discovered through lexicons and corpora containing hate speech, chatbot system abuse, toxicity, violence, and/or general profinity/obscenity. 
+
+# Red Flagger 🙅🚩
+
+A simple, dependency-free software that does keyword-based abuse flagging. It is designed with a philosophy of sensitivity and a focus on recall rather than precision. It detects from a term list that contain terms that are discovered through lexicons and corpora containing hate speech, chatbot system abuse, toxicity, violence, and/or general profinity/obscenity. 
 
 ## 🚨🚨 Important Note on Keyword Detection Systems 🚨🚨
 
@@ -12,6 +15,30 @@ Examples of suggested, more robust use cases:
 - Using detected keywords as BOW features and then training classical models on said features.
 
 For performance, see `evaluation/`.
+
+## Usage 🔨
+
+For basic usage, all you have to do is:
+
+`$ pip install red-flagger`
+
+```
+from red_flagger import RedFlagger
+
+rf = RedFlagger()
+document = "Something hateful"
+hate_words = rf.detect_abuse(document)
+```
+
+There's also a method to get a bag-of-words from the wordlist:
+
+```
+...
+
+hate_bow = rf.get_abuse_vector(document)
+```
+
+The library is designed to work with other word lists that are not built-in to the library. This can be managed with the `add_words` and `remove_words` methods. 
 
 ## Directory 📁
 
@@ -30,4 +57,8 @@ We acknowledge that there are other great resources and link some of them below:
 - [Weaponized Word](https://weaponizedword.org)
 - [HurtLex](https://github.com/valeriobasile/hurtlex/tree/master)
 - [HateBase](https://hatebase.org)
+
+## Contributions 🤝
+
+We welcome contributions for both the word list and the software using a fork-and-pull model. For additions to the word list, please ensure there are no duplicates or overlaps and that the additional data is obscured in base16. For any new features for the RedFlagger, open an issue for discussion first before opening a pull request.
 
