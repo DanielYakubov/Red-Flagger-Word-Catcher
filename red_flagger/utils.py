@@ -24,29 +24,24 @@ def filter_overlaps_and_sort(word_list: list[str]) -> list[str]:
     """
     # Breaks up phrases into word lists, sorts list by length of word list,
     # reforms phrase from word lists (now sorted)
-    split_word_list = [x.split() for x in word_list]
-    split_word_list.sort(key=len)
+    split_word_list = sorted([x.split() for x in word_list], key=len)
     sorted_word_list = [" ".join(word) for word in split_word_list]
 
-    # Compare every phrase from word list, only keep the unique words/phrases
-    bad_indices: list[int] = []
+    # Compare every phrase from word list, only keep the unique words/phrases.
+    bad_indices: set[int] = set()
     for i in range(len(sorted_word_list)):
         for j in range(i + 1, len(sorted_word_list)):
-            if i != j:
-                # handles dups in the word list (not caught by elif regex)
-                if sorted_word_list[i] == sorted_word_list[j]:
-                    if i not in bad_indices and j not in bad_indices:
-                        bad_indices.append(j)
-                elif (
-                    re.search(
-                        rf"\b{re.escape(sorted_word_list[i])}\b",
-                        sorted_word_list[j],
-                        flags=re.IGNORECASE,
-                    )
-                    is not None
-                    and j not in bad_indices
-                ):
-                    bad_indices.append(j)
+            # handles dupes in the word list (not caught by elif regex).
+            if sorted_word_list[i] == sorted_word_list[j]:
+                bad_indices.add(j)
+            elif re.search(
+                rf"\b{re.escape(sorted_word_list[i])}\b",
+                sorted_word_list[j],
+                flags=re.IGNORECASE,
+            ):
+                bad_indices.add(j)
+
+    # Keeping only unique phrases.
     unique_wordlist = [
         phrase
         for i, phrase in enumerate(sorted_word_list)
