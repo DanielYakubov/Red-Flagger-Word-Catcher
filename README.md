@@ -1,7 +1,7 @@
 [![PyPI version](https://badge.fury.io/py/rfwc.svg)](https://badge.fury.io/py/rfwc)
 [![Supported Python
 versions](https://img.shields.io/pypi/pyversions/rfwc.svg)](https://pypi.org/project/rfwc)
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DanielYakubov/abuse-keywords/tree/main.svg?style=svg&circle-token=CCIPRJ_WW5z4SbXN1bikuP7XGdnaK_4c37f849e6ff3744317014c6cc04f098dc63b814)](https://dl.circleci.com/status-badge/redirect/gh/DanielYakubov/abuse-keywords/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/DanielYakubov/Red-Flagger-Word-Catcher/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/DanielYakubov/Red-Flagger-Word-Catcher/tree/main)
 
 
 
