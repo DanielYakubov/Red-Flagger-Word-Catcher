@@ -9,7 +9,7 @@ from red_flagger.utils import filter_overlaps_and_sort
 
 OUT_FILEPATH = os.path.join(
     os.path.dirname(os.path.dirname(__file__)),
-    "abuse_flagger",
+    "red_flagger",
     "data",
     "toxic_keywords_b16.txt",
 )

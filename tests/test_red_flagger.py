@@ -14,7 +14,7 @@ class TestRedFlagger(unittest.TestCase):
         self.red_flagger = RedFlagger()
 
     def test_get_wordlist(self):
-        self.assertEqual(len(self.red_flagger.get_wordlist()), 1912)
+        self.assertEqual(len(self.red_flagger.get_wordlist()), 1882)
         self.assertEqual(
             self.red_flagger.get_wordlist(), self.red_flagger._wordlist
         )
@@ -98,7 +98,7 @@ class TestRedFlagger(unittest.TestCase):
         detected_8 = self.red_flagger.detect_abuse(
             "I saw Big Ben in London.", return_words=True
         )
-        self.assertEqual(detected_8, ["big ben"])
+        self.assertEqual(detected_8, ["Big Ben"])
 
     def test_get_abuse_vector(self):
         wl = self.red_flagger.get_wordlist()
@@ -117,13 +117,14 @@ class TestRedFlagger(unittest.TestCase):
         self.assertEqual(no_matches, [0, 0, 0])
 
         single_match = self.red_flagger.get_abuse_vector("I can see Big Ben!")
-        self.assertEqual(single_match, [1, 0, 0])
+        # The sorting order is based on the amount of words in item.
+        self.assertEqual(single_match, [0, 0, 1])
 
         wrong_case = self.red_flagger.get_abuse_vector("I can see big ben!")
-        self.assertEqual(wrong_case, [1, 0, 0])
+        self.assertEqual(wrong_case, [0, 0, 1])
 
         multi_matches = self.red_flagger.get_abuse_vector(
             "My favourite clocktower is Big Ben. \
             I can see that clocktower from my home!"
         )
-        self.assertEqual(multi_matches, [1, 2, 0])
+        self.assertEqual(multi_matches, [2, 0, 1])
