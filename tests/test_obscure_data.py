@@ -2,7 +2,7 @@
 
 import unittest
 
-from red_flagger.obscure_data import obscure, unobscure
+from rfwc.obscure_data import obscure, unobscure
 
 
 class TestObscureData(unittest.TestCase):

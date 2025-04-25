@@ -10,7 +10,7 @@ from sklearn.metrics import (
     recall_score,
 )
 
-from red_flagger.red_flagger import RedFlagger
+from rfwc.red_flagger import RedFlagger
 
 AF = RedFlagger()
 

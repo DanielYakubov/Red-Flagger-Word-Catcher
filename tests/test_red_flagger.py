@@ -5,7 +5,7 @@ functions which are critical to the lib.
 
 import unittest
 
-from red_flagger.red_flagger import RedFlagger
+from rfwc import RedFlagger
 
 
 class TestRedFlagger(unittest.TestCase):

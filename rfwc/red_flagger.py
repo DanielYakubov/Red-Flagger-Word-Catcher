@@ -3,8 +3,8 @@ import re
 from typing import Union
 from collections import Counter
 
-from red_flagger.obscure_data import unobscure
-from red_flagger.utils import filter_overlaps_and_sort
+from .obscure_data import unobscure
+from .utils import filter_overlaps_and_sort
 
 
 class RedFlagger:

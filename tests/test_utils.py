@@ -2,7 +2,7 @@
 
 import unittest
 
-from red_flagger.utils import filter_overlaps_and_sort
+from rfwc.utils import filter_overlaps_and_sort
 
 
 class TestUtils(unittest.TestCase):
