@@ -1,7 +1,11 @@
+[![PyPI version](https://badge.fury.io/py/rfwc.svg)](https://badge.fury.io/py/rfwc)
+[![Supported Python
+versions](https://img.shields.io/pypi/pyversions/rfwc.svg)](https://pypi.org/project/rfwc)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/DanielYakubov/abuse-keywords/tree/main.svg?style=svg&circle-token=CCIPRJ_WW5z4SbXN1bikuP7XGdnaK_4c37f849e6ff3744317014c6cc04f098dc63b814)](https://dl.circleci.com/status-badge/redirect/gh/DanielYakubov/abuse-keywords/tree/main)
 
 
-# Red Flagger 🙅🚩
+
+# Red Flagger Word Catcher 🙅🚩
 
 A simple, dependency-free software that does keyword-based abuse flagging. It is designed with a philosophy of sensitivity and a focus on recall rather than precision. It detects from a term list that contain terms that are discovered through lexicons and corpora containing hate speech, chatbot system abuse, toxicity, violence, and/or general profinity/obscenity. 
 
@@ -20,10 +24,10 @@ For performance, see `evaluation/`.
 
 For basic usage, all you have to do is:
 
-`$ pip install red-flagger`
+`$ pip install rfwc`
 
 ```
-from red_flagger import RedFlagger
+from rfwc import RedFlagger
 
 rf = RedFlagger()
 document = "Something hateful"
@@ -38,7 +42,7 @@ There's also a method to get a bag-of-words from the wordlist:
 hate_bow = rf.get_abuse_vector(document)
 ```
 
-The library is designed to work with other word lists that are not built-in to the library. This can be managed with the `add_words` and `remove_words` methods. 
+The library is designed to work with other word lists that are not built-in to the library. This can be managed with the `add_words` and `remove_words` methods. To get the current word list, there is the `get_wordlist` method.
 
 ## Directory 📁
 
